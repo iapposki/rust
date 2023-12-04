@@ -56,13 +56,16 @@ fn main() {
         println!("{res}");
     } */
 
+
+
 }
 
-fn another_function(x: i32) -> i32 {
+/* fn another_function(x: i32) -> i32 {
     return x+1;
-}
+} */
 
-fn fahrenheit_to_celcius(x:f64) -> f64 {
+
+/* fn fahrenheit_to_celcius(x:f64) -> f64 {
     return (x - 32.) * 5. / 9.;
 }
 
@@ -78,4 +81,4 @@ fn fibonacci(x:u32) -> u32 {
     } else {
         return fibonacci(x-1) + fibonacci(x-2);
     }
-}
+} */
