@@ -71,7 +71,32 @@ fn main() {
     println!("{y}"); */
 
     // ############### references and borrowing ##########
+    /* let mut s = String::from("anotherstring");
+    let len = calculate_length(&s); //s is just referenced here. Ownership remains the same. The function needs to be defined accordingly. ampersands represent references.
+    println!("Length of the String '{s}' is : {len}");
+    change(&mut s);
+    println!("The changes string is '{s}'");
+
+    let r1 = &s;
+    let r2 = &s;
+    println!("{r1} and {r2}");
+    let r3 = &mut s;
+    println!("{r3}");  // cant have two simultaneous immutable and mutable references but its fine here since r1 and r2 scope ends after last use.
+
+    //rules of references : 1. at any given time , you can have one mutable reference or any number of immutable references. 2. references must always be valid. */
+
+    // ################## slice type ###########
+    
+
 }
+
+/* fn calculate_length(s: &String) -> i32 {
+    s.len() as i32
+} */
+
+/* fn change(s: &mut String){
+    s.push_str(" dummystring");
+} */
 
 /* fn another_function(x: i32) -> i32 {
     return x+1;
