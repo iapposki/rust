@@ -86,9 +86,29 @@ fn main() {
     //rules of references : 1. at any given time , you can have one mutable reference or any number of immutable references. 2. references must always be valid. */
 
     // ################## slice type ###########
-    
+    /* let s = String::from("Hello World");
+    let word = first_word(&s);
+    println!("{word}");
+    // s.clear(); // error, already immutable reference present of s, by rules of borrowing, immutable and mutable reference cant coexist.
+    println!("first word: {word}"); //compile error, 's' borrowed earlier with s.clear().
+
+    let a = [1,2,3,4,5,6];
+    let slice = &a[1..3];
+    assert_eq!(slice, [2,3], "simple equality test."); */
 
 }
+
+/* fn first_word(s: &String) -> &str {
+    let bytes = s.as_bytes();
+
+    for (i, &item) in bytes.iter().enumerate() {
+        if item == b' ' {
+            return &s[0..i];
+        }
+    }
+
+    &s[..]
+} */
 
 /* fn calculate_length(s: &String) -> i32 {
     s.len() as i32
