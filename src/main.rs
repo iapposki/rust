@@ -1,3 +1,9 @@
+#[derive(Debug)]
+struct Rectangle {
+    width: f32,
+    height: f32,
+}
+
 fn main() {
     // ############# mut vs let #########
     /* let x = 23;
@@ -61,7 +67,7 @@ fn main() {
 
     let x = String::from("Some string.");
     let y = x.clone();
-    println!("{x}, {y}"); // if clone (deep copy) method not used here, x is simply moved to y such that x is no longer valid thereafter. 
+    println!("{x}, {y}"); // if clone (deep copy) method not used here, x is simply moved to y such that x is no longer valid thereafter.
 
     let x = String::from("Some string");
     takes_ownership(x);     // function takes ownership (or x moves into the function) and hence x not valid after this line
@@ -121,9 +127,23 @@ fn main() {
     struct Colour(i32,i32,i32);
     let black = Colour(0,0,0);
     println!("{}", black.0); */
-    
 
+    // ############# example program using structs ##########
+    // program that calculates the area of a rectangle.
+    /* let rect1 = Rectangle {
+        width: 30. * 3.,
+        height: 50.,
+    };
+    println!("The area of the rectangle is {} square pixels.", area(&rect1));
+    println!("The rectangle is {:?}", rect1); // need to implement #[derive(Debug)] implementation to the Rectangle struct first. :? prints in line whereas :#? pretty prints. */
+
+    
+    
 }
+
+/* fn area(rectangle: &Rectangle) -> f32 {
+    rectangle.width * rectangle.height
+} */
 
 /* fn first_word(s: &String) -> &str {
     let bytes = s.as_bytes();
