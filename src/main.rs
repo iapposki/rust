@@ -178,7 +178,7 @@ fn main() {
     dbg!(sq); */
 
     // ############  enum #####################
-    #[derive(Debug)]
+    /* #[derive(Debug)]
     enum IpAddrKind {
         V4,
         V6,
@@ -224,7 +224,16 @@ fn main() {
         }
     }
     let m = Message::Write(String::from("hello"));
-    m.call();
+    m.call(); */
+
+    // ############## some and none ################
+    // by design, null is not present in rust but can be implemented using enum as it is already by default as :
+    // enum Option<T> { None, Some(T),}
+    // None and Some are from std library std::option::Option. But they can be used directly as well.
+    let some_number = Some(5);
+    let some_char = Some('e');
+    let absent_number: Option<i32> = None;
+    // note : absent_number is still of type Option<i32> and not just i32 so such operations can be performed.
 
 }
 
