@@ -1,6 +1,6 @@
 fn main() {
     // ############# mut vs let #########
-    /* let x = 23;
+    let x = 23;
     println!("{x}");
 
     let x = "some string";
@@ -10,11 +10,10 @@ fn main() {
     println!("{x}");
     x = 34;
     println!("{x}");
-    x = "34";
-    println!("{x}"); */
+    // x = "34"; // will give an error
 
     // ########### type conversion and destructuring ############
-    /* let temp : u32 = "47".parse().expect("Not a number");
+    let temp : u32 = "47".parse().expect("Not a number");
     println!("{temp}");
 
     let tup = (500, 6.4, 1);
@@ -24,10 +23,10 @@ fn main() {
     let _arr1 = [3,4,5,5];
     let _arr2 = [2.3,4.0,3.3];
     let _arr3 = [3;4]; // same as [3,3,3,3]
-    // array are immutable */
+    // array are immutable
 
     // ############ funciton / if else / loop/ for ##############
-    /* let x = another_function(15);
+    let x = another_function(15);
     println!("The value of x is {x}");
     if x > 10 {
         println!("x is greater than 10");
@@ -40,20 +39,20 @@ fn main() {
     }
     for number in (1..5).rev() {
         println!("{number}");
-    } */
+    }
 
     // ########## EXERCISE : 1 #########
-    /* let res1 = fahrenheit_to_celcius(-40.);
+    let res1 = fahrenheit_to_celcius(-40.);
     let res2 = celcius_to_fahrenheit(-40.);
     println!("{res1}, {res2}");
 
     for i in 1..15 {
         let res = fibonacci(i);
         println!("{res}");
-    } */
+    }
 
     // ################## ownership ##############
-    /* {
+    {
         let m = "Something";
         println!("{m}");
     }
@@ -68,10 +67,10 @@ fn main() {
     // println!("{x}");
     let y = 32;
     makes_copy(y);          // function makes a copy since the input type and stored on the stack and not in the heap. Making copy of something on stack is not taxing as compared to something on heap. Hence, y is still valid after this line
-    println!("{y}"); */
+    println!("{y}");
 
     // ############### references and borrowing ##########
-    /* let mut s = String::from("anotherstring");
+    let mut s = String::from("anotherstring");
     let len = calculate_length(&s); //s is just referenced here. Ownership remains the same. The function needs to be defined accordingly. ampersands represent references.
     println!("Length of the String '{s}' is : {len}");
     change(&mut s);
@@ -83,10 +82,10 @@ fn main() {
     let r3 = &mut s;
     println!("{r3}");  // cant have two simultaneous immutable and mutable references but its fine here since r1 and r2 scope ends after last use.
 
-    //rules of references : 1. at any given time , you can have one mutable reference or any number of immutable references. 2. references must always be valid. */
+    //rules of references : 1. at any given time , you can have one mutable reference or any number of immutable references. 2. references must always be valid.
 
     // ################## slice type ###########
-    /* let s = String::from("Hello World");
+    let s = String::from("Hello World");
     let word = first_word(&s);
     println!("{word}");
     // s.clear(); // error, already immutable reference present of s, by rules of borrowing, immutable and mutable reference cant coexist.
@@ -94,11 +93,11 @@ fn main() {
 
     let a = [1,2,3,4,5,6];
     let slice = &a[1..3];
-    assert_eq!(slice, [2,3], "simple equality test."); */
+    assert_eq!(slice, [2,3], "simple equality test.");
 
     // ############ defining and instantiating structs #########
     // declare struct before main function. will work here too.
-    /* struct User {
+    struct User {
         active: bool,
         username: String,
         email: String,
@@ -120,28 +119,26 @@ fn main() {
     // println!("{}", user1.username);  // cant do this as .username was borrowed from user1 before so its on longer valid.
     struct Colour(i32,i32,i32);
     let black = Colour(0,0,0);
-    println!("{}", black.0); */
+    println!("{}", black.0);
 
     // ############# example program using structs ##########
     // program that calculates the area of a rectangle.
-    /* #[derive(Debug)]
+    #[derive(Debug)]
     struct Rectangle {
         width: f32,
         height: f32,
     }
+    fn area(rectangle: &Rectangle) -> f32 {
+        rectangle.width * rectangle.height
+    }    
     let rect1 = Rectangle {
         width: 30. * 3.,
         height: 50.,
     };
     println!("The area of the rectangle is {} square pixels.", area(&rect1));
-    println!("The rectangle is {:?}", rect1); // need to implement #[derive(Debug)] implementation to the Rectangle struct first. :? prints in line whereas :#? pretty prints. */
+    println!("The rectangle is {:?}", rect1); // need to implement #[derive(Debug)] implementation to the Rectangle struct first. :? prints in line whereas :#? pretty prints.
 
     // ############ structs method syntax ##################
-    /* #[derive(Debug)]
-    struct Rectangle {
-        width: f32,
-        height: f32,
-    }
     impl Rectangle {
         fn area(&self) -> f32 {
             self.width * self.height
@@ -175,10 +172,10 @@ fn main() {
     println!("rect1 can hold rect3 : {}", rect1.can_hold(&rect3));
     println!("rect3 can hold rect2 : {}", rect3.can_hold(&rect2));
     let sq = Rectangle::square(3.);
-    dbg!(sq); */
+    dbg!(sq);
 
     // ############  enum #####################
-    /* #[derive(Debug)]
+    #[derive(Debug)]
     enum IpAddrKind {
         V4,
         V6,
@@ -192,12 +189,12 @@ fn main() {
     // to use it in structs.
     #[derive(Debug)]
     struct IpAddr {
-        kind: IpAddrKind,
-        address: String,
+        _kind: IpAddrKind,
+        _address: String,
     }
     let addr1 = IpAddr {
-        kind: IpAddrKind::V4,
-        address: String::from("127.0.0.1")
+        _kind: IpAddrKind::V4,
+        _address: String::from("127.0.0.1")
     };
     println!("{:?}", addr1);
     #[derive(Debug)]
@@ -211,10 +208,10 @@ fn main() {
     // another example
     #[derive(Debug)]
     enum Message {
-        Quit,
-        Move {x: i32, y: i32},
+        _Quit,
+        _Move {x: i32, y: i32},
         Write(String),
-        ChangeColour(i32, i32, i32),
+        _ChangeColour(i32, i32, i32),
     }
     // impl can be used with enum as well
     impl Message {
@@ -224,39 +221,39 @@ fn main() {
         }
     }
     let m = Message::Write(String::from("hello"));
-    m.call(); */
+    m.call();
 
     // ############## some and none ################
-    /* // by design, null is not present in rust but can be implemented using enum as it is already by default as :
+    // by design, null is not present in rust but can be implemented using enum as it is already by default as :
     // enum Option<T> { None, Some(T),}
     // None and Some are from std library std::option::Option. But they can be used directly as well.
-    let some_number = Some(5);
-    let some_char = Some('e');
-    let absent_number: Option<i32> = None;
-    // note : absent_number is still of type Option<i32> and not just i32 so such operations can be performed. So the type of the variable needs to be change before performing such operation and thus eliminating the issue of assuming that something isn't null when it actually is. Everywhere that a value has a type that isn't an Option<T>, you can safely assume that the value isn't null. */
+    let _some_number = Some(5);
+    let _some_char = Some('e');
+    let _absent_number: Option<i32> = None;
+    // note : absent_number is still of type Option<i32> and not just i32 so such operations can be performed. So the type of the variable needs to be change before performing such operation and thus eliminating the issue of assuming that something isn't null when it actually is. Everywhere that a value has a type that isn't an Option<T>, you can safely assume that the value isn't null.
 
     // ########## match control flow construct ###############
-    /* #[derive(Debug)]
+    #[derive(Debug)]
     enum UsState {
-        Alabama,
+        _Alabama,
         Alaska,
         // --snip--
     }
     #[derive(Debug)]
     enum Coin {
-        Penny,
-        Nicket,
-        Dime,
+        _Penny,
+        _Nicket,
+        _Dime,
         Quarter(UsState),
     }
     fn value_in_cents(coin: &Coin) -> u8 {
         match coin {
-            Coin::Penny => {
+            Coin::_Penny => {
                 println!("Lucky Penny!");
                 1
             },
-            Coin::Nicket => 5,
-            Coin::Dime => 10,
+            Coin::_Nicket => 5,
+            Coin::_Dime => 10,
             Coin::Quarter(state) => {
                 println!("State quarter from {:?}!", state);
                 25
@@ -277,29 +274,42 @@ fn main() {
     let five = Some(5);
     let six = some_add_or_none(five);
     let none = some_add_or_none(None);
-    println!("{}, {}, {:?}", five, six, none);
+    println!("{:?}, {:?}, {:?}", five, six, none);
     // to take care of all the other cases in match, a catch all phrase. Either use that or a placeholder _ to take care of all the cases.
-    let roll = 9;
+    let dice_roll = 9;
     match dice_roll {
         3 => add_fancy_hat(),
         other => move_player(other),
     }
+    let dice_roll_alt = 3;
     match dice_roll_alt {
         3 => add_fancy_hat(),
         _ => (),
     }
-    fn add_fancy_hat() {};
-    fn move_player(num_spaces: u8) {}; */
+    fn add_fancy_hat() {}
+    fn move_player(_num_spaces: u8) {}
 
     // ############ concise control flow with if let #########
-    
+    let config_max = Some(2i32);
+    match config_max {
+        Some(max) => println!("The maximum is configured to be {}", max),
+        _ => {},
+    };
+    // instead, as a shortcut
+    if let Some(max) = config_max {
+        println!("The maximum is configured to be {}", max);
+    };
+    // else ; used in place of _ for other cases
+    let mut count = 0;
+    if let Coin::Quarter(state) = new_coin {
+        println!("The quarter is from the state {:?}!", state);
+    } else {
+        count += 1;
+        println!("{count}");
+    }
 
 
 }
-
-/* fn area(rectangle: &Rectangle) -> f32 {
-    rectangle.width * rectangle.height
-} */
 
 fn first_word(s: &String) -> &str {
     let bytes = s.as_bytes();
