@@ -1,3 +1,7 @@
+use crate::garden::vegetables::Asparagus;
+
+pub mod garden; 
+
 fn main() {
     // ############# mut vs let #########
    {
@@ -341,7 +345,14 @@ fn main() {
     // crate root is a source file that the compiler starts from. default is src/main.rs
     // package is bundle of one or more crates. it can contain as many binary crates as required (in src/bin directory) and only one library crate (src/lib.rs). both can be present in the package at the same time.
 
-    // #################### 
+    // #################### defining modules ##################
+    // to declare a module, either 1. inline curly brackets that replace the semi colon here, 2. in src/garden.rs or 3. in the file src/garden/mod.rs.
+    // to declare Submodules, agian either inline in curly brackets `mod vegetables`, or in garden.rs or in mod.rs in the garden directory as `mod vegetables`
+    // paths to code in modules : code in module can be reffered anywhere in crate. for example `crate::garden::vegetables;:Asparagus` for an Asparagus type in the garden vegetables module.
+    // Private vs Public : codes within modules are private from parent module by default use pub before to make it public. use inside modules as well as needed.
+    // keyword : instead of using `crate::garden::vegetables;:Asparagus` every time instead use ` use crate::garden::vegetables;:Asparagus` so you only need to write Asparagus to make use of that type in the scope.
+    let plant = Asparagus {};
+    println!("I'm growing {:?}", plant);
 
 }
 
