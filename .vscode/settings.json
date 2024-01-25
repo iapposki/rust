@@ -1,0 +1,6 @@
+{
+    "rust-analyzer.linkedProjects": [
+        ".\\restaurant-lib-standalone\\Cargo.toml",
+        ".\\Cargo.toml",
+    ]
+}
