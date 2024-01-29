@@ -1,11 +1,11 @@
 use crate::garden::vegetables::Asparagus;
 
-pub mod garden; 
+pub mod garden;
 
 fn main() {
     // ############# mut vs let #########
-   {
-         let x = 23;
+    {
+        let x = 23;
         println!("{x}");
 
         let x = "some string";
@@ -20,17 +20,17 @@ fn main() {
 
     // ########### type conversion and destructuring ############
     {
-        let temp : u32 = "47".parse().expect("Not a number");
+        let temp: u32 = "47".parse().expect("Not a number");
         println!("{temp}");
 
         let tup = (500, 6.4, 1);
         let (_x, y, _z) = tup;
         println!("The value of y is: {y} and value of x is {_x}");
 
-        let _arr1 = [3,4,5,5];
-        let _arr2 = [2.3,4.0,3.3];
-        let _arr3 = [3;4]; // same as [3,3,3,3]
-        // array are immutable
+        let _arr1 = [3, 4, 5, 5];
+        let _arr2 = [2.3, 4.0, 3.3];
+        let _arr3 = [3; 4]; // same as [3,3,3,3]
+                            // array are immutable
     }
 
     // ############ funciton / if else / loop/ for ##############
@@ -42,7 +42,7 @@ fn main() {
         } else {
             println!("x is smaller than 10");
         }
-        let a = [1,2,3,4,5,6,7,8];
+        let a = [1, 2, 3, 4, 5, 6, 7, 8];
         for element in a {
             println!("{element}");
         }
@@ -76,10 +76,10 @@ fn main() {
         println!("{x}, {y}"); // if clone (deep copy) method not used here, x is simply moved to y such that x is no longer valid thereafter.
 
         let x = String::from("Some string");
-        takes_ownership(x);     // function takes ownership (or x moves into the function) and hence x not valid after this line
-        // println!("{x}");
+        takes_ownership(x); // function takes ownership (or x moves into the function) and hence x not valid after this line
+                            // println!("{x}");
         let y = 32;
-        makes_copy(y);          // function makes a copy since the input type and stored on the stack and not in the heap. Making copy of something on stack is not taxing as compared to something on heap. Hence, y is still valid after this line
+        makes_copy(y); // function makes a copy since the input type and stored on the stack and not in the heap. Making copy of something on stack is not taxing as compared to something on heap. Hence, y is still valid after this line
         println!("{y}");
     }
 
@@ -95,7 +95,7 @@ fn main() {
         let r2 = &s;
         println!("{r1} and {r2}");
         let r3 = &mut s;
-        println!("{r3}");  // cant have two simultaneous immutable and mutable references but its fine here since r1 and r2 scope ends after last use.
+        println!("{r3}"); // cant have two simultaneous immutable and mutable references but its fine here since r1 and r2 scope ends after last use.
 
         //rules of references : 1. at any given time , you can have one mutable reference or any number of immutable references. 2. references must always be valid.
     }
@@ -108,9 +108,9 @@ fn main() {
         // s.clear(); // error, already immutable reference present of s, by rules of borrowing, immutable and mutable reference cant coexist.
         println!("first word: {word}"); //compile error, 's' borrowed earlier with s.clear().
 
-        let a = [1,2,3,4,5,6];
+        let a = [1, 2, 3, 4, 5, 6];
         let slice = &a[1..3];
-        assert_eq!(slice, [2,3], "simple equality test.");
+        assert_eq!(slice, [2, 3], "simple equality test.");
 
         // ############ defining and instantiating structs #########
         // declare struct before main function. will work here too.
@@ -127,15 +127,18 @@ fn main() {
             sign_in_count: 43,
         };
         user1.email = String::from("user1@gmail.com"); // user1 needs to be mutable entirely for assignment.
-        println!("{}, {}, {}, {}", user1.email, user1.active, user1.username, user1.sign_in_count );
+        println!(
+            "{}, {}, {}, {}",
+            user1.email, user1.active, user1.username, user1.sign_in_count
+        );
         // update syntax
         let _user2 = User {
             email: String::from("user2@email.com"),
             ..user1
         };
         // println!("{}", user1.username);  // cant do this as .username was borrowed from user1 before so its on longer valid.
-        struct Colour(i32,i32,i32);
-        let black = Colour(0,0,0);
+        struct Colour(i32, i32, i32);
+        let black = Colour(0, 0, 0);
         println!("{}", black.0);
     }
 
@@ -148,13 +151,16 @@ fn main() {
     }
     fn area(rectangle: &Rectangle) -> f32 {
         rectangle.width * rectangle.height
-    }    
+    }
     {
         let rect1 = Rectangle {
             width: 30. * 3.,
             height: 50.,
         };
-        println!("The area of the rectangle is {} square pixels.", area(&rect1));
+        println!(
+            "The area of the rectangle is {} square pixels.",
+            area(&rect1)
+        );
         println!("The rectangle is {:?}", rect1); // need to implement #[derive(Debug)] implementation to the Rectangle struct first. :? prints in line whereas :#? pretty prints.
     }
 
@@ -163,20 +169,21 @@ fn main() {
         fn area(&self) -> f32 {
             self.width * self.height
         }
-        fn square(size: f32) -> Self { 
+        fn square(size: f32) -> Self {
             Self {
                 width: size,
                 height: size,
             }
-        }//Self here is alias for what comes after the impl before which is Rectangle here.
+        } //Self here is alias for what comes after the impl before which is Rectangle here.
     }
     impl Rectangle {
         fn can_hold(&self, other: &Rectangle) -> bool {
-            (self.height > other.height && self.width > other.width) || (self.height > other.width && self.width > other.height)
+            (self.height > other.height && self.width > other.width)
+                || (self.height > other.width && self.width > other.height)
         }
     }
     {
-        let rect1 = Rectangle{
+        let rect1 = Rectangle {
             width: 30.,
             height: 40.,
         };
@@ -206,10 +213,10 @@ fn main() {
         let four = IpAddrKind::V4;
         let _six = IpAddrKind::V6;
         println!("{:?}", four);
-        fn route(_ip_kind: IpAddrKind){}
+        fn route(_ip_kind: IpAddrKind) {}
         route(IpAddrKind::V4);
         route(IpAddrKind::V6); // works for both this way.
-        // to use it in structs.
+                               // to use it in structs.
         #[derive(Debug)]
         struct IpAddr {
             _kind: IpAddrKind,
@@ -217,7 +224,7 @@ fn main() {
         }
         let addr1 = IpAddr {
             _kind: IpAddrKind::V4,
-            _address: String::from("127.0.0.1")
+            _address: String::from("127.0.0.1"),
         };
         println!("{:?}", addr1);
         #[derive(Debug)]
@@ -232,7 +239,7 @@ fn main() {
         #[derive(Debug)]
         enum Message {
             _Quit,
-            _Move {x: i32, y: i32},
+            _Move { x: i32, y: i32 },
             Write(String),
             _ChangeColour(i32, i32, i32),
         }
@@ -278,23 +285,23 @@ fn main() {
                 Coin::_Penny => {
                     println!("Lucky Penny!");
                     1
-                },
+                }
                 Coin::_Nicket => 5,
                 Coin::_Dime => 10,
                 Coin::Quarter(state) => {
                     println!("State quarter from {:?}!", state);
                     25
-                },
+                }
             }
         }
         let new_coin = Coin::Quarter(UsState::Alaska);
         value_in_cents(&new_coin);
         println!("{:?}", new_coin);
-        // 
+        //
         fn some_add_or_none(value: Option<i32>) -> Option<i32> {
             match value {
                 None => None,
-                Some(i) => Some(i+1),
+                Some(i) => Some(i + 1),
             }
         }
         // if a case was not covered in the match above, compiler will throw an error. Matches in rust are exhaustive.
@@ -322,7 +329,7 @@ fn main() {
         let config_max = Some(2i32);
         match config_max {
             Some(max) => println!("The maximum is configured to be {}", max),
-            _ => {},
+            _ => {}
         };
         // instead, as a shortcut
         if let Some(max) = config_max {
@@ -354,6 +361,8 @@ fn main() {
     let plant = Asparagus {};
     println!("I'm growing {:?}", plant);
 
+    // ################### bringing paths into scope with the `use` keyword ##################
+    // use only creates shortcut for the particular scope in which the use occurs. move the use to the required scope to make use of the shortcut
 }
 
 fn first_word(s: &String) -> &str {
@@ -371,12 +380,12 @@ fn calculate_length(s: &String) -> i32 {
     s.len() as i32
 }
 
-fn change(s: &mut String){
+fn change(s: &mut String) {
     s.push_str(" dummystring");
 }
 
 fn another_function(x: i32) -> i32 {
-    return x+1;
+    return x + 1;
 }
 
 fn takes_ownership(x: String) {
@@ -387,20 +396,20 @@ fn makes_copy(x: i32) {
     println!("{x} some integer");
 }
 
-fn fahrenheit_to_celcius(x:f64) -> f64 {
+fn fahrenheit_to_celcius(x: f64) -> f64 {
     return (x - 32.) * 5. / 9.;
 }
 
-fn celcius_to_fahrenheit(x:f64) -> f64 {
-    return x * (9./5.) + 32.;
+fn celcius_to_fahrenheit(x: f64) -> f64 {
+    return x * (9. / 5.) + 32.;
 }
 
-fn fibonacci(x:u32) -> u32 {
+fn fibonacci(x: u32) -> u32 {
     if x == 0 {
         return 0;
     } else if x == 1 {
         return 1;
     } else {
-        return fibonacci(x-1) + fibonacci(x-2);
+        return fibonacci(x - 1) + fibonacci(x - 2);
     }
 }
