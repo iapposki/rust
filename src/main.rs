@@ -363,6 +363,54 @@ fn main() {
 
     // ################### bringing paths into scope with the `use` keyword ##################
     // use only creates shortcut for the particular scope in which the use occurs. move the use to the required scope to make use of the shortcut
+
+    // ############### storing list of values in vectors##################
+    // specify which types is going to be fed to the vectore during initialization.
+    let _v: Vec<i32> = Vec::new();
+    // alternatively use macro which infers the type automatically
+    let mut v = vec![1,2,3];
+    // to update
+    v.push(5);
+    // to read elements
+    let third = &v[2];
+    println!("{third}");
+    println!("{:?}", v);
+    // get can also be used to get the value but it return option
+    let third = v.get(2);
+    match third {
+        Some(number) => println!("the number is {number}"),
+        None => println!("the number aat that position doesn't exist")
+    }
+    // code will panic if the code below runs, here get is used.
+    // let _temp = &v[100];
+    let _temp = v.get(100);
+    // consider this case where we make an immutable borrow occurs
+    let first = &v[0];
+    println!("{first}");
+    // but when we try to push an element to v, we will get an error stating 'v' cannot be borrowed as mutable because it is also borrowed as immutable and when printing 'first' it says immutable borrow used here.
+    // v.push(6);
+    // println!("The first element is {first} ");
+    // but why is it that when an element is immutably borrowed from that vector, pushing an element becomes restricted? this happens because act of adding might need reallocating vector to new area in case of insufficient memory in the previous allocation.
+    // iterating
+    for i in &v {
+        println!("{i}");
+    }
+    // mutable iterating
+    println!("{:?}", v);
+    for i in &mut v {
+        *i += 50; // * is the dereference operator to get to the value in i before we can use the += operator. will be talked about more later
+    }
+    println!("{:?}", v);
+    // using enum to store multiple types in vector
+    #[derive(Debug)]
+    enum SpreadsheetCell {
+        Int(i32),
+        Float(f64),
+        Text(String),
+    }
+    let row = vec![SpreadsheetCell::Int(3), SpreadsheetCell::Text(String::from("value")), SpreadsheetCell::Float(3.14)];
+    println!("{:?}", row);
+
 }
 
 fn first_word(s: &String) -> &str {
