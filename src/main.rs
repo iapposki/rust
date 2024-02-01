@@ -236,7 +236,7 @@ fn main() {
     // note : absent_number is still of type Option<i32> and not just i32 so such operations can be performed. So the type of the variable needs to be change before performing such operation and thus eliminating the issue of assuming that something isn't null when it actually is. Everywhere that a value has a type that isn't an Option<T>, you can safely assume that the value isn't null. */
 
     // ########## match control flow construct ###############
-    #[derive(Debug)]
+    /* #[derive(Debug)]
     enum UsState {
         Alabama,
         Alaska,
@@ -273,10 +273,26 @@ fn main() {
             Some(i) => Some(i+1),
         }
     }
+    // if a case was not covered in the match above, compiler will throw an error. Matches in rust are exhaustive.
     let five = Some(5);
     let six = some_add_or_none(five);
     let none = some_add_or_none(None);
     println!("{}, {}, {:?}", five, six, none);
+    // to take care of all the other cases in match, a catch all phrase. Either use that or a placeholder _ to take care of all the cases.
+    let roll = 9;
+    match dice_roll {
+        3 => add_fancy_hat(),
+        other => move_player(other),
+    }
+    match dice_roll_alt {
+        3 => add_fancy_hat(),
+        _ => (),
+    }
+    fn add_fancy_hat() {};
+    fn move_player(num_spaces: u8) {}; */
+
+    
+
 
 }
 
@@ -284,7 +300,7 @@ fn main() {
     rectangle.width * rectangle.height
 } */
 
-/* fn first_word(s: &String) -> &str {
+fn first_word(s: &String) -> &str {
     let bytes = s.as_bytes();
 
     for (i, &item) in bytes.iter().enumerate() {
@@ -292,31 +308,30 @@ fn main() {
             return &s[0..i];
         }
     }
-
     &s[..]
-} */
+}
 
-/* fn calculate_length(s: &String) -> i32 {
+fn calculate_length(s: &String) -> i32 {
     s.len() as i32
-} */
+}
 
-/* fn change(s: &mut String){
+fn change(s: &mut String){
     s.push_str(" dummystring");
-} */
+}
 
-/* fn another_function(x: i32) -> i32 {
+fn another_function(x: i32) -> i32 {
     return x+1;
-} */
+}
 
-/* fn takes_ownership(x: String) {
+fn takes_ownership(x: String) {
     println!("{x} some string");
-} */
+}
 
-/* fn makes_copy(x: i32) {
+fn makes_copy(x: i32) {
     println!("{x} some integer");
-} */
+}
 
-/* fn fahrenheit_to_celcius(x:f64) -> f64 {
+fn fahrenheit_to_celcius(x:f64) -> f64 {
     return (x - 32.) * 5. / 9.;
 }
 
@@ -332,4 +347,4 @@ fn fibonacci(x:u32) -> u32 {
     } else {
         return fibonacci(x-1) + fibonacci(x-2);
     }
-} */
+}
