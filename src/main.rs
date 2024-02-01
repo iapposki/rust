@@ -96,6 +96,33 @@ fn main() {
     let slice = &a[1..3];
     assert_eq!(slice, [2,3], "simple equality test."); */
 
+    // ############ defining and instantiating structs #########
+    // declare struct before main function. will work here too.
+    /* struct User {
+        active: bool,
+        username: String,
+        email: String,
+        sign_in_count: u64,
+    }
+    let mut user1 = User {
+        active: true,
+        username: String::from("user1"),
+        email: String::from("user1@email.com"),
+        sign_in_count: 43,
+    };
+    user1.email = String::from("user1@gmail.com"); // user1 needs to be mutable entirely for assignment.
+    println!("{}, {}, {}, {}", user1.email, user1.active, user1.username, user1.sign_in_count );
+    // update syntax
+    let _user2 = User {
+        email: String::from("user2@email.com"),
+        ..user1
+    };
+    // println!("{}", user1.username);  // cant do this as .username was borrowed from user1 before so its on longer valid.
+    struct Colour(i32,i32,i32);
+    let black = Colour(0,0,0);
+    println!("{}", black.0); */
+    
+
 }
 
 /* fn first_word(s: &String) -> &str {
