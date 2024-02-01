@@ -368,7 +368,7 @@ fn main() {
     // specify which types is going to be fed to the vectore during initialization.
     let _v: Vec<i32> = Vec::new();
     // alternatively use macro which infers the type automatically
-    let mut v = vec![1,2,3];
+    let mut v = vec![1, 2, 3];
     // to update
     v.push(5);
     // to read elements
@@ -379,7 +379,7 @@ fn main() {
     let third = v.get(2);
     match third {
         Some(number) => println!("the number is {number}"),
-        None => println!("the number aat that position doesn't exist")
+        None => println!("the number aat that position doesn't exist"),
     }
     // code will panic if the code below runs, here get is used.
     // let _temp = &v[100];
@@ -408,9 +408,12 @@ fn main() {
         Float(f64),
         Text(String),
     }
-    let row = vec![SpreadsheetCell::Int(3), SpreadsheetCell::Text(String::from("value")), SpreadsheetCell::Float(3.14)];
+    let row = vec![
+        SpreadsheetCell::Int(3),
+        SpreadsheetCell::Text(String::from("value")),
+        SpreadsheetCell::Float(3.14),
+    ];
     println!("{:?}", row);
-
 }
 
 fn first_word(s: &String) -> &str {
