@@ -136,7 +136,7 @@ fn main() {
     println!("The area of the rectangle is {} square pixels.", area(&rect1));
     println!("The rectangle is {:?}", rect1); // need to implement #[derive(Debug)] implementation to the Rectangle struct first. :? prints in line whereas :#? pretty prints. */
 
-    // ############ method syntax ##################
+    // ############ structs method syntax ##################
     /* #[derive(Debug)]
     struct Rectangle {
         width: f32,
@@ -177,7 +177,54 @@ fn main() {
     let sq = Rectangle::square(3.);
     dbg!(sq); */
 
-    
+    // ############  enum #####################
+    #[derive(Debug)]
+    enum IpAddrKind {
+        V4,
+        V6,
+    }
+    let four = IpAddrKind::V4;
+    let _six = IpAddrKind::V6;
+    println!("{:?}", four);
+    fn route(_ip_kind: IpAddrKind){}
+    route(IpAddrKind::V4);
+    route(IpAddrKind::V6); // works for both this way.
+    // to use it in structs.
+    #[derive(Debug)]
+    struct IpAddr {
+        kind: IpAddrKind,
+        address: String,
+    }
+    let addr1 = IpAddr {
+        kind: IpAddrKind::V4,
+        address: String::from("127.0.0.1")
+    };
+    println!("{:?}", addr1);
+    #[derive(Debug)]
+    enum IpAddrWithEnum {
+        V4(String),
+        V6(String),
+    }
+    let home = IpAddrWithEnum::V4(String::from("127.0.0.1"));
+    let loopback = IpAddrWithEnum::V6(String::from("::1"));
+    println!("{:?}, {:?}", home, loopback);
+    // another example
+    #[derive(Debug)]
+    enum Message {
+        Quit,
+        Move {x: i32, y: i32},
+        Write(String),
+        ChangeColour(i32, i32, i32),
+    }
+    // impl can be used with enum as well
+    impl Message {
+        fn call(&self) {
+            // method body would be defined here
+            println!("{:?}", &self)
+        }
+    }
+    let m = Message::Write(String::from("hello"));
+    m.call();
 
 }
 
