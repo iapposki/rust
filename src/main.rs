@@ -336,7 +336,10 @@ fn main() {
     }
 
     // ################ managing growing projects with packages, crates and moduels ###################
-    
+    // packages and crates : crate is smallest amount of code that rust compiler considers at a time. 2 types, binary and library crates.
+    // binary crates are promgrammes that can be compiled to executable, it has a main function. library crate dont and cant ompilte to executable.
+    // crate root is a source file that the compiler starts from. default is src/main.rs
+    // package is bundle of one or more crates. it can contain as many binary crates as required (in src/bin directory) and only one library crate (src/lib.rs). both can be present in the package at the same time.
 
 }
 
