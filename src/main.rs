@@ -341,6 +341,8 @@ fn main() {
     // crate root is a source file that the compiler starts from. default is src/main.rs
     // package is bundle of one or more crates. it can contain as many binary crates as required (in src/bin directory) and only one library crate (src/lib.rs). both can be present in the package at the same time.
 
+    // #################### 
+
 }
 
 fn first_word(s: &String) -> &str {
