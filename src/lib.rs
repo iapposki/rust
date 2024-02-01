@@ -51,7 +51,7 @@ pub fn eat_at_restaurant() {
 
     // Order a breakfast in the summer with Rye toast
     let mut meal = back_of_house::Breakfast::summer("Rye");
-    // change our mind about what bread we'd like 
+    // change our mind about what bread we'd like
     meal.toast = String::from("Wheat");
     println!("I'd like {} toast please", meal.toast);
     let _order1 = back_of_house::Appetizer::Soup;
