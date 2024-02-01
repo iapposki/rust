@@ -414,6 +414,25 @@ fn main() {
         SpreadsheetCell::Float(3.14),
     ];
     println!("{:?}", row);
+
+    // #################### STRING ##############################
+    let data = "initial contents";
+    let mut s = data.to_string();
+    // let s = "initial contents".to_string();
+    // let s = String::from("initial contents");
+    // strings are UTF-8 encoded
+    println!("{s}");
+    s.push_str(" added content");
+    println!("{s}");
+    let s1 = String::from("hello");
+    let s2 = String::from(" world!");
+    let s3 = s1 + &s2; // note s1 has moved here and can no longer be used. + uses add operator which looks like `fn add(self, s: &str) -> String {...}` and hence takes string literal as the second arguement or any arguement following it for that matter.
+    // alternatively use format! macro. it doesnt take ownership of any of the variables.
+    let s = format!("{s3} to formatted {s2}");
+    println!("{s}");
+    // rust doesn't index string. so s[0] will throw an error. you need to be more specifid when you say s[0] as it could mean first byte, first char, etc.
+    println!("{}", &s[0..1]); // this, although valid, might also cause a panic as it takes the first byte but in different languages one character is not always one byte.
+
 }
 
 fn first_word(s: &String) -> &str {
