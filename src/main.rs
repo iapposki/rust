@@ -227,13 +227,56 @@ fn main() {
     m.call(); */
 
     // ############## some and none ################
-    // by design, null is not present in rust but can be implemented using enum as it is already by default as :
+    /* // by design, null is not present in rust but can be implemented using enum as it is already by default as :
     // enum Option<T> { None, Some(T),}
     // None and Some are from std library std::option::Option. But they can be used directly as well.
     let some_number = Some(5);
     let some_char = Some('e');
     let absent_number: Option<i32> = None;
-    // note : absent_number is still of type Option<i32> and not just i32 so such operations can be performed.
+    // note : absent_number is still of type Option<i32> and not just i32 so such operations can be performed. So the type of the variable needs to be change before performing such operation and thus eliminating the issue of assuming that something isn't null when it actually is. Everywhere that a value has a type that isn't an Option<T>, you can safely assume that the value isn't null. */
+
+    // ########## match control flow construct ###############
+    #[derive(Debug)]
+    enum UsState {
+        Alabama,
+        Alaska,
+        // --snip--
+    }
+    #[derive(Debug)]
+    enum Coin {
+        Penny,
+        Nicket,
+        Dime,
+        Quarter(UsState),
+    }
+    fn value_in_cents(coin: &Coin) -> u8 {
+        match coin {
+            Coin::Penny => {
+                println!("Lucky Penny!");
+                1
+            },
+            Coin::Nicket => 5,
+            Coin::Dime => 10,
+            Coin::Quarter(state) => {
+                println!("State quarter from {:?}!", state);
+                25
+            },
+        }
+    }
+    let new_coin = Coin::Quarter(UsState::Alaska);
+    value_in_cents(&new_coin);
+    println!("{:?}", new_coin);
+    // 
+    fn some_add_or_none(value: Option<i32>) -> Option<i32> {
+        match value {
+            None => None,
+            Some(i) => Some(i+1),
+        }
+    }
+    let five = Some(5);
+    let six = some_add_or_none(five);
+    let none = some_add_or_none(None);
+    println!("{}, {}, {:?}", five, six, none);
 
 }
 
