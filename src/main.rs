@@ -432,6 +432,10 @@ fn main() {
     println!("{s}");
     // rust doesn't index string. so s[0] will throw an error. you need to be more specifid when you say s[0] as it could mean first byte, first char, etc.
     println!("{}", &s[0..1]); // this, although valid, might also cause a panic as it takes the first byte but in different languages one character is not always one byte.
+    // use .chars() to iterate.
+    for c in s.chars() {
+        println!("{c}");
+    }
 
 }
 
