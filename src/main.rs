@@ -1,3 +1,5 @@
+use std::collections::{HashMap};
+
 use crate::garden::vegetables::Asparagus;
 
 pub mod garden;
@@ -436,6 +438,40 @@ fn main() {
     for c in s.chars() {
         println!("{c}");
     }
+
+    // ################### hash map ##########################
+    let mut scores = HashMap::new();
+    scores.insert(String::from("key1"), 5);
+    scores.insert(String::from("key2"), 10);
+    // to access 
+    let key = String::from("key1");
+    let temp = scores.get(&key); // takes reference as argument, alternatively use "key" here.
+    println!("{:?}", temp);
+    // by default temp will have Option<&i32> type
+    // alternatively
+    let temp = scores.get("key1").copied().unwrap_or(0);
+    // copied gives Options<i32> instead of Options<&i32> and unwrap_or() will give teh value inside some if present or 0 if absent.
+    println!("{temp}");
+    // to loop through the keys
+    for (key, value) in &scores {
+        println!("{key}: {value}");
+    }
+    // to add key value if present, use entry
+    scores.entry(String::from("key3")).or_insert(25);
+    scores.entry(String::from("key2")).or_insert(20);
+    println!("-----------");
+    for (key, value) in &scores {
+        println!("{key}: {value}");
+    }
+    let some_str = "hello world a beautiful world";
+    let mut map = HashMap::new();
+    for word in some_str.split_whitespace() {
+        let count = map.entry(word).or_insert(0);
+        *count += 1;
+    }
+    println!("{:?}", map);
+    // the hashmap in the standard library is not the fastest as it uses the SipHash function which provides safety from denial of service (DoS) attaacks involving hash tables
+
 
 }
 
