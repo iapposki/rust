@@ -1,10 +1,13 @@
 use std::collections::{HashMap};
+use std::time::Instant;
 
 use crate::garden::vegetables::Asparagus;
 
 pub mod garden;
 
 fn main() {
+    let start_time = Instant::now();
+
     // ############# mut vs let #########
     {
         let x = 23;
@@ -480,7 +483,11 @@ fn main() {
     // let v = vec![1,2,3];
     // v[99];
     // to check backtrace, if using powershell, run `$env:RUST_BACKTRACE=1` to set the variable then run the project.
-    
+
+
+
+    let elapsed_time = start_time.elapsed();
+    println!("Elapsed time : {:?}", elapsed_time);
 
 }
 
