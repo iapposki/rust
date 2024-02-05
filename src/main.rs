@@ -445,7 +445,7 @@ fn main() {
     scores.insert(String::from("key2"), 10);
     // to access 
     let key = String::from("key1");
-    let temp = scores.get(&key); // takes reference as argument, alternatively use "key" here.
+    let temp = scores.get(&key); // takes reference as argument, alternatively use "key" literal here.
     println!("{:?}", temp);
     // by default temp will have Option<&i32> type
     // alternatively
@@ -474,6 +474,13 @@ fn main() {
 
     // ################### error handling #######################
     // rust throws two kind of errors, first is resolvable error for which code doesn't needs to be stopped, for eg file not found, having type `Result<T, E>`, and the second is non recoverable error, for eg accessing an array element outside of its range, having macro panic!.
+    // panic! can be explicitely called using macro or due to some bug in code.
+    // panic!("crash and burn");
+    // or
+    // let v = vec![1,2,3];
+    // v[99];
+    // to check backtrace, if using powershell, run `$env:RUST_BACKTRACE=1` to set the variable then run the project.
+    
 
 }
 
