@@ -472,6 +472,8 @@ fn main() {
     println!("{:?}", map);
     // the hashmap in the standard library is not the fastest as it uses the SipHash function which provides safety from denial of service (DoS) attaacks involving hash tables
 
+    // ################### error handling #######################
+    // rust throws two kind of errors, first is resolvable error for which code doesn't needs to be stopped, for eg file not found, having type `Result<T, E>`, and the second is non recoverable error, for eg accessing an array element outside of its range, having macro panic!.
 
 }
 
