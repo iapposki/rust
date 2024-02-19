@@ -1,4 +1,4 @@
-use std::collections::{HashMap};
+use std::collections::HashMap;
 use std::time::Instant;
 
 use crate::garden::vegetables::Asparagus;
@@ -432,12 +432,12 @@ fn main() {
     let s1 = String::from("hello");
     let s2 = String::from(" world!");
     let s3 = s1 + &s2; // note s1 has moved here and can no longer be used. + uses add operator which looks like `fn add(self, s: &str) -> String {...}` and hence takes string literal as the second arguement or any arguement following it for that matter.
-    // alternatively use format! macro. it doesnt take ownership of any of the variables.
+                       // alternatively use format! macro. it doesnt take ownership of any of the variables.
     let s = format!("{s3} to formatted {s2}");
     println!("{s}");
     // rust doesn't index string. so s[0] will throw an error. you need to be more specifid when you say s[0] as it could mean first byte, first char, etc.
     println!("{}", &s[0..1]); // this, although valid, might also cause a panic as it takes the first byte but in different languages one character is not always one byte.
-    // use .chars() to iterate.
+                              // use .chars() to iterate.
     for c in s.chars() {
         println!("{c}");
     }
@@ -446,7 +446,7 @@ fn main() {
     let mut scores = HashMap::new();
     scores.insert(String::from("key1"), 5);
     scores.insert(String::from("key2"), 10);
-    // to access 
+    // to access
     let key = String::from("key1");
     let temp = scores.get(&key); // takes reference as argument, alternatively use "key" literal here.
     println!("{:?}", temp);
@@ -484,11 +484,8 @@ fn main() {
     // v[99];
     // to check backtrace, if using powershell, run `$env:RUST_BACKTRACE=1` to set the variable then run the project.
 
-
-
     let elapsed_time = start_time.elapsed();
     println!("Elapsed time : {:?}", elapsed_time);
-
 }
 
 fn first_word(s: &String) -> &str {
