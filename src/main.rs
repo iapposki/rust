@@ -352,128 +352,141 @@ fn main() {
     }
 
     // ################ managing growing projects with packages, crates and moduels ###################
-    // packages and crates : crate is smallest amount of code that rust compiler considers at a time. 2 types, binary and library crates.
-    // binary crates are promgrammes that can be compiled to executable, it has a main function. library crate dont and cant ompilte to executable.
-    // crate root is a source file that the compiler starts from. default is src/main.rs
-    // package is bundle of one or more crates. it can contain as many binary crates as required (in src/bin directory) and only one library crate (src/lib.rs). both can be present in the package at the same time.
+    {
+        // packages and crates : crate is smallest amount of code that rust compiler considers at a time. 2 types, binary and library crates.
+        // binary crates are promgrammes that can be compiled to executable, it has a main function. library crate dont and cant ompilte to executable.
+        // crate root is a source file that the compiler starts from. default is src/main.rs
+        // package is bundle of one or more crates. it can contain as many binary crates as required (in src/bin directory) and only one library crate (src/lib.rs). both can be present in the package at the same time.
+    }
 
     // #################### defining modules ##################
-    // to declare a module, either 1. inline curly brackets that replace the semi colon here, 2. in src/garden.rs or 3. in the file src/garden/mod.rs.
-    // to declare Submodules, agian either inline in curly brackets `mod vegetables`, or in garden.rs or in mod.rs in the garden directory as `mod vegetables`
-    // paths to code in modules : code in module can be reffered anywhere in crate. for example `crate::garden::vegetables;:Asparagus` for an Asparagus type in the garden vegetables module.
-    // Private vs Public : codes within modules are private from parent module by default use pub before to make it public. use inside modules as well as needed.
-    // keyword : instead of using `crate::garden::vegetables;:Asparagus` every time instead use ` use crate::garden::vegetables;:Asparagus` so you only need to write Asparagus to make use of that type in the scope.
-    let plant = Asparagus {};
-    println!("I'm growing {:?}", plant);
+    {
+        // to declare a module, either 1. inline curly brackets that replace the semi colon here, 2. in src/garden.rs or 3. in the file src/garden/mod.rs.
+        // to declare Submodules, agian either inline in curly brackets `mod vegetables`, or in garden.rs or in mod.rs in the garden directory as `mod vegetables`
+        // paths to code in modules : code in module can be reffered anywhere in crate. for example `crate::garden::vegetables;:Asparagus` for an Asparagus type in the garden vegetables module.
+        // Private vs Public : codes within modules are private from parent module by default use pub before to make it public. use inside modules as well as needed.
+        // keyword : instead of using `crate::garden::vegetables;:Asparagus` every time instead use ` use crate::garden::vegetables;:Asparagus` so you only need to write Asparagus to make use of that type in the scope.
+        let plant = Asparagus {};
+        println!("I'm growing {:?}", plant);
+    }
 
     // ################### bringing paths into scope with the `use` keyword ##################
-    // use only creates shortcut for the particular scope in which the use occurs. move the use to the required scope to make use of the shortcut
+    {
+        // use only creates shortcut for the particular scope in which the use occurs. move the use to the required scope to make use of the shortcut
+    }
 
     // ############### storing list of values in vectors##################
-    // specify which types is going to be fed to the vectore during initialization.
-    let _v: Vec<i32> = Vec::new();
-    // alternatively use macro which infers the type automatically
-    let mut v = vec![1, 2, 3];
-    // to update
-    v.push(5);
-    // to read elements
-    let third = &v[2];
-    println!("{third}");
-    println!("{:?}", v);
-    // get can also be used to get the value but it return option
-    let third = v.get(2);
-    match third {
-        Some(number) => println!("the number is {number}"),
-        None => println!("the number aat that position doesn't exist"),
+    {
+        // specify which types is going to be fed to the vectore during initialization.
+        let _v: Vec<i32> = Vec::new();
+        // alternatively use macro which infers the type automatically
+        let mut v = vec![1, 2, 3];
+        // to update
+        v.push(5);
+        // to read elements
+        let third = &v[2];
+        println!("{third}");
+        println!("{:?}", v);
+        // get can also be used to get the value but it return option
+        let third = v.get(2);
+        match third {
+            Some(number) => println!("the number is {number}"),
+            None => println!("the number aat that position doesn't exist"),
+        }
+        // code will panic if the code below runs, here get is used.
+        // let _temp = &v[100];
+        let temp = v.get(100);
+        println!("{:?}", temp); //None
+        // consider this case where we make an immutable borrow occurs
+        let first = &v[0];
+        println!("{first}");
+        // but when we try to push an element to v, we will get an error stating 'v' cannot be borrowed as mutable because it is also borrowed as immutable and when printing 'first' it says immutable borrow used here.
+        // v.push(6);
+        // println!("The first element is {first} ");
+        // but why is it that when an element is immutably borrowed from that vector, pushing an element becomes restricted? this happens because act of adding might need reallocating vector to new area in case of insufficient memory in the previous allocation.
+        // iterating
+        for i in &v {
+            println!("{i}");
+        }
+        // mutable iterating
+        println!("{:?}", v);
+        for i in &mut v {
+            *i += 50; // * is the dereference operator to get to the value in i before we can use the += operator. will be talked about more later
+        }
+        println!("{:?}", v);
+        // using enum to store multiple types in vector
+        #[derive(Debug)]
+        enum SpreadsheetCell {
+            Int(i32),
+            Float(f64),
+            Text(String),
+        }
+        let row = vec![
+            SpreadsheetCell::Int(3),
+            SpreadsheetCell::Text(String::from("value")),
+            SpreadsheetCell::Float(3.14),
+        ];
+        println!("{:?}", row);
     }
-    // code will panic if the code below runs, here get is used.
-    // let _temp = &v[100];
-    let _temp = v.get(100);
-    // consider this case where we make an immutable borrow occurs
-    let first = &v[0];
-    println!("{first}");
-    // but when we try to push an element to v, we will get an error stating 'v' cannot be borrowed as mutable because it is also borrowed as immutable and when printing 'first' it says immutable borrow used here.
-    // v.push(6);
-    // println!("The first element is {first} ");
-    // but why is it that when an element is immutably borrowed from that vector, pushing an element becomes restricted? this happens because act of adding might need reallocating vector to new area in case of insufficient memory in the previous allocation.
-    // iterating
-    for i in &v {
-        println!("{i}");
-    }
-    // mutable iterating
-    println!("{:?}", v);
-    for i in &mut v {
-        *i += 50; // * is the dereference operator to get to the value in i before we can use the += operator. will be talked about more later
-    }
-    println!("{:?}", v);
-    // using enum to store multiple types in vector
-    #[derive(Debug)]
-    enum SpreadsheetCell {
-        Int(i32),
-        Float(f64),
-        Text(String),
-    }
-    let row = vec![
-        SpreadsheetCell::Int(3),
-        SpreadsheetCell::Text(String::from("value")),
-        SpreadsheetCell::Float(3.14),
-    ];
-    println!("{:?}", row);
 
     // #################### STRING ##############################
-    let data = "initial contents";
-    let mut s = data.to_string();
-    // let s = "initial contents".to_string();
-    // let s = String::from("initial contents");
-    // strings are UTF-8 encoded
-    println!("{s}");
-    s.push_str(" added content");
-    println!("{s}");
-    let s1 = String::from("hello");
-    let s2 = String::from(" world!");
-    let s3 = s1 + &s2; // note s1 has moved here and can no longer be used. + uses add operator which looks like `fn add(self, s: &str) -> String {...}` and hence takes string literal as the second arguement or any arguement following it for that matter.
-                       // alternatively use format! macro. it doesnt take ownership of any of the variables.
-    let s = format!("{s3} to formatted {s2}");
-    println!("{s}");
-    // rust doesn't index string. so s[0] will throw an error. you need to be more specifid when you say s[0] as it could mean first byte, first char, etc.
-    println!("{}", &s[0..1]); // this, although valid, might also cause a panic as it takes the first byte but in different languages one character is not always one byte.
-                              // use .chars() to iterate.
-    for c in s.chars() {
-        println!("{c}");
+    {
+        let data = "initial contents";
+        let mut s = data.to_string();
+        // let s = "initial contents".to_string();
+        // let s = String::from("initial contents");
+        // strings are UTF-8 encoded
+        println!("{s}");
+        s.push_str(" added content");
+        println!("{s}");
+        let s1 = String::from("hello");
+        let s2 = String::from(" world!");
+        let s3 = s1 + &s2; // note s1 has moved here and can no longer be used. + uses add operator which looks like `fn add(self, s: &str) -> String {...}` and hence takes string literal as the second arguement or any arguement following it for that matter.
+                        // alternatively use format! macro. it doesnt take ownership of any of the variables.
+        let s = format!("{s3} to formatted {s2}");
+        println!("{s}");
+        // rust doesn't index string. so s[0] will throw an error. you need to be more specifid when you say s[0] as it could mean first byte, first char, etc.
+        println!("{}", &s[0..1]); // this, although valid, might also cause a panic as it takes the first byte but in different languages one character is not always one byte.
+                                // use .chars() to iterate.
+        for c in s.chars() {
+            println!("{c}");
+        }
     }
 
     // ################### hash map ##########################
-    let mut scores = HashMap::new();
-    scores.insert(String::from("key1"), 5);
-    scores.insert(String::from("key2"), 10);
-    // to access
-    let key = String::from("key1");
-    let temp = scores.get(&key); // takes reference as argument, alternatively use "key" literal here.
-    println!("{:?}", temp);
-    // by default temp will have Option<&i32> type
-    // alternatively
-    let temp = scores.get("key1").copied().unwrap_or(0);
-    // copied gives Options<i32> instead of Options<&i32> and unwrap_or() will give teh value inside some if present or 0 if absent.
-    println!("{temp}");
-    // to loop through the keys
-    for (key, value) in &scores {
-        println!("{key}: {value}");
+    {
+        let mut scores = HashMap::new();
+        scores.insert(String::from("key1"), 5);
+        scores.insert(String::from("key2"), 10);
+        // to access
+        let key = String::from("key1");
+        let temp = scores.get(&key); // takes reference as argument, alternatively use "key" literal here.
+        println!("{:?}", temp);
+        // by default temp will have Option<&i32> type
+        // alternatively
+        let temp = scores.get("key1").copied().unwrap_or(0);
+        // copied gives Options<i32> instead of Options<&i32> and unwrap_or() will give teh value inside some if present or 0 if absent.
+        println!("{temp}");
+        // to loop through the keys
+        for (key, value) in &scores {
+            println!("{key}: {value}");
+        }
+        // to add key value if present, use entry
+        scores.entry(String::from("key3")).or_insert(25);
+        scores.entry(String::from("key2")).or_insert(20);
+        println!("-----------");
+        for (key, value) in &scores {
+            println!("{key}: {value}");
+        }
+        let some_str = "hello world a beautiful world";
+        let mut map = HashMap::new();
+        for word in some_str.split_whitespace() {
+            let count = map.entry(word).or_insert(0);
+            *count += 1;
+        }
+        println!("{:?}", map);
+        // the hashmap in the standard library is not the fastest as it uses the SipHash function which provides safety from denial of service (DoS) attaacks involving hash tables
     }
-    // to add key value if present, use entry
-    scores.entry(String::from("key3")).or_insert(25);
-    scores.entry(String::from("key2")).or_insert(20);
-    println!("-----------");
-    for (key, value) in &scores {
-        println!("{key}: {value}");
-    }
-    let some_str = "hello world a beautiful world";
-    let mut map = HashMap::new();
-    for word in some_str.split_whitespace() {
-        let count = map.entry(word).or_insert(0);
-        *count += 1;
-    }
-    println!("{:?}", map);
-    // the hashmap in the standard library is not the fastest as it uses the SipHash function which provides safety from denial of service (DoS) attaacks involving hash tables
 
     // ################### error handling #######################
     // rust throws two kind of errors, first is resolvable error for which code doesn't needs to be stopped, for eg file not found, having type `Result<T, E>`, and the second is non recoverable error, for eg accessing an array element outside of its range, having macro panic!.
