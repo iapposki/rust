@@ -522,7 +522,17 @@ fn main() {
             }
         };
         println!("{:?}", greeting_file);
-        
+        // alternatively, instead of using so many match, :
+        let greeting_file_alt = File::open("hello.txt").unwrap_or_else(|error| {
+            if error.kind() == ErrorKind::NotFound {
+                File::create("./src/hello.txt").unwrap_or_else(|error| {
+                    panic!("problem creating the file: {:?}", error);
+                })
+            } else {
+                panic!("problem opening the file: {:?}", error);
+            }
+        });
+        println!("{:?}", greeting_file_alt);
     }
 
     let elapsed_time = start_time.elapsed();
