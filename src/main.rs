@@ -1,5 +1,8 @@
+use core::panic;
 use std::collections::HashMap;
+use std::io::ErrorKind;
 use std::time::Instant;
+use std::fs::File;
 
 use crate::garden::vegetables::Asparagus;
 
@@ -489,13 +492,38 @@ fn main() {
     }
 
     // ################### error handling #######################
-    // rust throws two kind of errors, first is resolvable error for which code doesn't needs to be stopped, for eg file not found, having type `Result<T, E>`, and the second is non recoverable error, for eg accessing an array element outside of its range, having macro panic!.
-    // panic! can be explicitely called using macro or due to some bug in code.
-    // panic!("crash and burn");
-    // or
-    // let v = vec![1,2,3];
-    // v[99];
-    // to check backtrace, if using powershell, run `$env:RUST_BACKTRACE=1` to set the variable then run the project.
+    {
+        // rust throws two kind of errors, first is resolvable error for which code doesn't needs to be stopped, for eg file not found, having type `Result<T, E>`, and the second is non recoverable error, for eg accessing an array element outside of its range, having macro panic!.
+        // panic! can be explicitely called using macro or due to some bug in code.
+        // panic!("crash and burn");
+        // or
+        // let v = vec![1,2,3];
+        // v[99];
+        // to check backtrace, if using powershell, run `$env:RUST_BACKTRACE=1` to set the variable then run the project.
+    }
+
+    //  ################## recoverable errors with result ###################
+    {
+        // Result is defined as : 
+        // enum Result<T, E> { Ok(T), Err(E)}
+        // T type result returned in case of success and E type (Err) error returned in case of failure, for example :
+        let greeting_file_result = File::open("./src/hello.txt");
+        // println!("{:?}", greeting_file_result);
+        let greeting_file = match greeting_file_result {
+            Ok(file) => file,
+            Err(error) => match error.kind() {
+                ErrorKind::NotFound => match File::create("./src/hello.txt") {
+                    Ok(fc) => fc,
+                    Err(e) => panic!("problem creating the file : {:?}", e),
+                },
+                other_error => {
+                    panic!("problem opening the file: {:?}", other_error);
+                }
+            }
+        };
+        println!("{:?}", greeting_file);
+        
+    }
 
     let elapsed_time = start_time.elapsed();
     println!("Elapsed time : {:?}", elapsed_time);
