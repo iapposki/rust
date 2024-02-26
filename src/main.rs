@@ -533,6 +533,9 @@ fn main() {
             }
         });
         println!("{:?}", greeting_file_alt);
+        // if individually handling error kinds is not required, simply use .unwrap(), if the result is Ok, unwrap returns the value in Ok and if it is an error, unwrap automatically calls the panic! macro. the general norm is using .expect(), it works similar to .unwrap() but also takes in a prompt which is displayed in case of an error.
+        let _greeting_file_short = File::open("./src/hello.txt").expect("hello.txt file is required to run");
+
     }
 
     let elapsed_time = start_time.elapsed();
