@@ -571,7 +571,7 @@ fn main() {
             fs::read_to_string("./src/hello.txt")
         }
         println!("{:?}", read_username_from_file_shortest());
-
+        // note: custom errors can be made and used (automatically if ? operator used and the correct type is stated in the reutrn type) by `impl From<io::Error>` for some "CustomError".
     }
 
     let elapsed_time = start_time.elapsed();
