@@ -1,6 +1,6 @@
 use core::panic;
 use std::collections::HashMap;
-use std::io::ErrorKind;
+use std::io::{self, ErrorKind, Read};
 use std::time::Instant;
 use std::fs::File;
 
@@ -535,6 +535,21 @@ fn main() {
         println!("{:?}", greeting_file_alt);
         // if individually handling error kinds is not required, simply use .unwrap(), if the result is Ok, unwrap returns the value in Ok and if it is an error, unwrap automatically calls the panic! macro. the general norm is using .expect(), it works similar to .unwrap() but also takes in a prompt which is displayed in case of an error.
         let _greeting_file_short = File::open("./src/hello.txt").expect("hello.txt file is required to run");
+        // to propagate an error, i.e., giving back the error instead of raising it in the function block itself.
+        fn read_username_from_file() -> Result<String, io::Error> {
+            let username_file_result = File::open("./src/hello.txt");
+            let mut username_file = match username_file_result {
+                Ok(file) => file,
+                Err(e) => return Err(e)
+            };
+            let mut username = String::new();
+            match username_file.read_to_string(&mut username) {
+                Ok(_) => Ok(username),
+                Err(e) => Err(e),
+            }
+        }
+        println!("{:?}", read_username_from_file());
+        
 
     }
 
