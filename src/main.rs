@@ -2,7 +2,7 @@ use core::panic;
 use std::collections::HashMap;
 use std::io::{self, ErrorKind, Read};
 use std::time::Instant;
-use std::fs::File;
+use std::fs::{self, File};
 
 use crate::garden::vegetables::Asparagus;
 
@@ -559,7 +559,18 @@ fn main() {
         println!("{:?}", read_username_from_file_using_operator());
         // ? operator: it basically works the same as the match expression. if the value generated from result is Ok(_), the value is returned to the expression else when the value is an Err, the Err will be returned from the whole funcitonas if we had used the return keyword so the error value gets propagated to the calling code.
         // how ? is different from the match expression is that the ? operator calls the 'from' function, the error type received is converted to the type defined in the return type of the current function.
-        
+        // chaining method calls after the ? operator
+        fn read_username_from_file_using_operator_chained() -> Result<String, io::Error> {
+            let mut username = String::new();
+            File::open("./src/hello.txt")?.read_to_string(&mut username)?;
+            Ok(username)
+        }
+        println!("{:?}", read_username_from_file_using_operator_chained());
+        // on the other hand to make this funciton even shorted : 
+        fn read_username_from_file_shortest() -> Result<String, io::Error> {
+            fs::read_to_string("./src/hello.txt")
+        }
+        println!("{:?}", read_username_from_file_shortest());
 
     }
 
