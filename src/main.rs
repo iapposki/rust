@@ -549,6 +549,16 @@ fn main() {
             }
         }
         println!("{:?}", read_username_from_file());
+        // shortcut for propagating errors: the ? operator
+        fn read_username_from_file_using_operator() -> Result<String, io::Error> {
+            let mut username_file = File::open("./src/ello.txt")?;
+            let mut username = String::new();
+            username_file.read_to_string(&mut username)?;
+            Ok(username)
+        }
+        println!("{:?}", read_username_from_file_using_operator());
+        // ? operator: it basically works the same as the match expression. if the value generated from result is Ok(_), the value is returned to the expression else when the value is an Err, the Err will be returned from the whole funcitonas if we had used the return keyword so the error value gets propagated to the calling code.
+        // how ? is different from the match expression is that the ? operator calls the 'from' function, the error type received is converted to the type defined in the return type of the current function.
         
 
     }
