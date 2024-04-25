@@ -373,6 +373,7 @@ fn main() {
         // keyword : instead of using `crate::garden::vegetables;:Asparagus` every time instead use ` use crate::garden::vegetables;:Asparagus` so you only need to write Asparagus to make use of that type in the scope.
         let plant = Asparagus {};
         println!("I'm growing {:?}", plant);
+        front_of_house::hosting::add_to_waitlist();
     }
 
     // ################### bringing paths into scope with the `use` keyword ##################
