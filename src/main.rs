@@ -599,6 +599,53 @@ fn main() {
         println!("{:?}, {}", guess, guess.value());
     }
 
+    // ############################ generic data types ####################
+    {
+        // fn largest<T>(list: &[T]) -> &T {
+        //     let mut largest = &list[0];
+        //     for item in list {
+        //         if item > largest {
+        //             largest = item;
+        //         }
+        //     }
+        //     largest
+        // }
+        // let number_list = vec![23,43,45,545643];
+        // let result = largest(&number_list);
+        // println!("{result}");
+        // this wont work yet as > operator is not defined for every type including generic T here.
+        struct _Point1<T> {
+            x:T,
+        }
+        struct Point2<T,U> {
+            x: T,
+            y: U,
+        }
+        enum _Result<T,E> {
+            Ok(T),
+            Err(E),
+        }
+        // in method definition :
+        impl <T> _Point1<T> {
+            fn _x(&self) -> &T {
+                &self.x
+            }
+        }
+        impl<T1,U1> Point2<T1, U1> {
+            fn mixup<T2, U2>(&self, other: Point2<T2, U2>) -> Point2<&T1, U2> {
+                Point2 {
+                    x: &self.x, 
+                    y: other.y,
+                }
+            }
+        }
+        let p1 = Point2 {x: 5, y: 10.4};
+        let p2 = Point2 {x: "hello", y: "c"};
+        let p3 = p1.mixup(p2);
+        println!("p3.x = {}, p3.y = {}", p3.x, p3.y);
+        println!("{}", p1.x);
+    }
+
     let elapsed_time = start_time.elapsed();
     println!("Elapsed time : {:?}", elapsed_time);
 }
