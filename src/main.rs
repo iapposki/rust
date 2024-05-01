@@ -1,5 +1,6 @@
 use core::panic;
 use std::collections::HashMap;
+use std::fmt::{Debug, Display};
 use std::io::{self, ErrorKind, Read};
 use std::str::FromStr;
 use std::time::Instant;
@@ -691,6 +692,32 @@ fn main() {
         };
         println!("{}", tweet.summarize());
         // note: default behavior can also be defined for a trait, just provide a method to summarize here in pub trait Summary here for example.
+    }
+
+    // ################## traits as parameters; trait bound syntax; specifying multipel trait bounds with + Syntax; clearer trait bounds with where clause ###########################
+    {
+        pub fn _notify(item: &impl Summary) {
+            println!("Breaking news! {}", item.summarize());
+        }
+        // this function implements Summary trait without explicitely defining the type of item provided the item being provided has a type which already implements Summary trait. Here, the item can be either Tweet or NewsArticle as defined before.
+        // the impl trait syntax here is a syntax sugar for a longer form known as trait bound and it looks like: 
+        pub fn _notify_expanded<T: Summary>(item: &T) {
+            println!("Breaking news! {}", item.summarize());
+        }
+        // to specify multiple trait bounds we use + Syntax:
+        pub fn _notify_multi(_item: &(impl Summary + Display)) {}
+        // and in trait bound form :
+        pub fn _notify_multi_expanded<T: Summary+Display>(_item:&T) {}
+        // using multiple trait bounds can get messy sometiems, eg:
+        pub fn _some_function<T: Display + Clone, U: Clone + Debug>(_t: &T, _u: &U) {}
+        // instead use where clause:
+        pub fn _some_function_where<T, U>(_t: &T, _u: &U) -> i32 
+        where 
+            T: Display + Clone,
+            U: Clone + Debug,
+        {
+            return 0
+        }
     }
 
 
