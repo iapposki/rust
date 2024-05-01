@@ -1,11 +1,14 @@
 use core::panic;
 use std::collections::HashMap;
 use std::io::{self, ErrorKind, Read};
+use std::str::FromStr;
 use std::time::Instant;
 use std::fs::{self, File};
 
 use crate::garden::vegetables::Asparagus;
-use rusttutorial::front_of_house;
+use rusttutorial::{front_of_house, Summary};
+use rusttutorial::Tweet;
+use rusttutorial::NewsArticle;
 
 
 pub mod garden;
@@ -644,6 +647,50 @@ fn main() {
         let p3 = p1.mixup(p2);
         println!("p3.x = {}, p3.y = {}", p3.x, p3.y);
         println!("{}", p1.x);
+    }
+
+    // ################### traits: defining shared behavior ###################
+    {
+        // traits are a way to group methods signatures together to define a set of behaviors necessary to accomplish some purpose
+        // eg: a trait is defined in lib.rs as 
+        // pub trait Summary {
+        //     fn summarize(&self) -> String;
+        // }
+        // each type implementation must provide its own custom behavior for the body of the method summarize here.
+        // eg:
+        // pub struct NewsArticle {
+        //     pub headline: String,
+        //     pub location: String,
+        //     pub author: String,
+        //     pub content: String,
+        // }
+        
+        // impl Summary for NewsArticle {
+        //     fn summarize(&self) -> String {
+        //         format!("{}, by {} ({})", self.headline, self.author, self.location)
+        //     }
+        // }
+        
+        // pub struct Tweet {
+        //     pub username: String,
+        //     pub content: String,
+        //     pub reply: bool,
+        //     pub retweet: bool,
+        // }
+        
+        // impl Summary for Tweet {
+        //     fn summarize(&self) -> String {
+        //         format!("{}: {}", self.username, self.content)
+        //     }
+        // }
+        let tweet = Tweet{
+            username: String::from("david"),
+            content: String::from("this is my first gaming tweet"),
+            reply: false,
+            retweet: false
+        };
+        println!("{}", tweet.summarize());
+        // note: default behavior can also be defined for a trait, just provide a method to summarize here in pub trait Summary here for example.
     }
 
     let elapsed_time = start_time.elapsed();
