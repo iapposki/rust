@@ -693,6 +693,7 @@ fn main() {
         // note: default behavior can also be defined for a trait, just provide a method to summarize here in pub trait Summary here for example.
     }
 
+
     let elapsed_time = start_time.elapsed();
     println!("Elapsed time : {:?}", elapsed_time);
 }
