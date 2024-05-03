@@ -711,14 +711,33 @@ fn main() {
         // using multiple trait bounds can get messy sometiems, eg:
         pub fn _some_function<T: Display + Clone, U: Clone + Debug>(_t: &T, _u: &U) {}
         // instead use where clause:
-        pub fn _some_function_where<T, U>(_t: &T, _u: &U) -> i32 
-        where 
-            T: Display + Clone,
-            U: Clone + Debug,
-        {
+        pub fn _some_function_where<T, U>(_t: &T, _u: &U) -> i32 where T: Display + Clone, U: Clone + Debug,{
             return 0
         }
     }
+    // ################# returning types that implement traits ##############
+    fn _returns_summarizable() -> impl Summary {
+        Tweet {
+            username: String::from("horse_ebooks"),
+            content: String::from("of course, as you probably already know, people"),
+            reply: false,
+            retweet: false,
+        }
+    }
+    // note: returning either a Tweet or NewsArticle here as a possible return type wont work with impl Summary due to reestrictions around how the impl Trait syntax is implemented in the compiler.
+    // now the largest function can be run with the following modification.
+    fn largest<T: Display + PartialOrd>(list: &[T]) -> &T {
+        let mut largest = &list[0];
+        for item in list {
+            if item > largest {
+                largest = item;
+            }
+        }
+        largest
+    }
+    let number_list = vec![23,43,45,545643];
+    let result = largest(&number_list);
+    println!("{result}");
 
 
     let elapsed_time = start_time.elapsed();
