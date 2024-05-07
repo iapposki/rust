@@ -765,8 +765,28 @@ fn main() {
     let string2 = "xyz";
     let result = longest(string1.as_str(), string2);
     println!("The longest string is {}", result);
-    
-
+    // struct holding reference nedds a lifetime annotation on every reference.
+    struct _ImportantExcerpt<'a> {
+        part: &'a str,
+    }    
+    // all in all, references have a lifetime and you need to specify lifetime param for functions or structs that use references. few functions used before didnt require it because rust automatically adds it in some very obvious cases.
+    // putting everyting together
+    fn _longest_with_an_announcement<'a, T>(
+        x: &'a str,
+        y: &'a str,
+        ann: T,
+    ) -> &'a str
+    where
+        T: Display,
+    {
+        println!("Announcement! {}", ann);
+        if x.len() > y.len() {
+            x
+        } else {
+            y
+        }
+    }
+    // the function  has an extra parameter named ann of the generic type T, which can be filled in by any type that implements the Display trait as specified by the where clause. This extra parameter will be printed using {}, which is why the Display trait bound is necessary. Because lifetimes are a type of generic, the declarations of the lifetime parameter 'a and the generic type parameter T go in the same list inside the angle brackets after the function name
 
 
     let elapsed_time = start_time.elapsed();
