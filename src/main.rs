@@ -1,14 +1,13 @@
 use core::panic;
 use std::collections::HashMap;
 use std::fmt::{Debug, Display};
+use std::fs::{self, File};
 use std::io::{self, ErrorKind, Read};
 use std::time::Instant;
-use std::fs::{self, File};
 
 use crate::garden::vegetables::Asparagus;
-use rusttutorial::{front_of_house, Summary};
 use rusttutorial::Tweet;
-
+use rusttutorial::{front_of_house, Summary};
 
 pub mod garden;
 
@@ -405,7 +404,7 @@ fn main() {
         // let _temp = &v[100];
         let temp = v.get(100);
         println!("{:?}", temp); //None
-        // consider this case where we make an immutable borrow occurs
+                                // consider this case where we make an immutable borrow occurs
         let first = &v[0];
         println!("{first}");
         // but when we try to push an element to v, we will get an error stating 'v' cannot be borrowed as mutable because it is also borrowed as immutable and when printing 'first' it says immutable borrow used here.
@@ -450,12 +449,12 @@ fn main() {
         let s1 = String::from("hello");
         let s2 = String::from(" world!");
         let s3 = s1 + &s2; // note s1 has moved here and can no longer be used. + uses add operator which looks like `fn add(self, s: &str) -> String {...}` and hence takes string literal as the second arguement or any arguement following it for that matter.
-                        // alternatively use format! macro. it doesnt take ownership of any of the variables.
+                           // alternatively use format! macro. it doesnt take ownership of any of the variables.
         let s = format!("{s3} to formatted {s2}");
         println!("{s}");
         // rust doesn't index string. so s[0] will throw an error. you need to be more specifid when you say s[0] as it could mean first byte, first char, etc.
         println!("{}", &s[0..1]); // this, although valid, might also cause a panic as it takes the first byte but in different languages one character is not always one byte.
-                                // use .chars() to iterate.
+                                  // use .chars() to iterate.
         for c in s.chars() {
             println!("{c}");
         }
@@ -509,7 +508,7 @@ fn main() {
 
     //  ################## recoverable errors with result ###################
     {
-        // Result is defined as : 
+        // Result is defined as :
         // enum Result<T, E> { Ok(T), Err(E)}
         // T type result returned in case of success and E type (Err) error returned in case of failure, for example :
         let greeting_file_result = File::open("./src/hello.txt");
@@ -524,7 +523,7 @@ fn main() {
                 other_error => {
                     panic!("problem opening the file: {:?}", other_error);
                 }
-            }
+            },
         };
         println!("{:?}", greeting_file);
         // alternatively, instead of using so many match, :
@@ -539,13 +538,14 @@ fn main() {
         });
         println!("{:?}", greeting_file_alt);
         // if individually handling error kinds is not required, simply use .unwrap(), if the result is Ok, unwrap returns the value in Ok and if it is an error, unwrap automatically calls the panic! macro. the general norm is using .expect(), it works similar to .unwrap() but also takes in a prompt which is displayed in case of an error.
-        let _greeting_file_short = File::open("./src/hello.txt").expect("hello.txt file is required to run");
+        let _greeting_file_short =
+            File::open("./src/hello.txt").expect("hello.txt file is required to run");
         // to propagate an error, i.e., giving back the error instead of raising it in the function block itself.
         fn read_username_from_file() -> Result<String, io::Error> {
             let username_file_result = File::open("./src/hello.txt");
             let mut username_file = match username_file_result {
                 Ok(file) => file,
-                Err(e) => return Err(e)
+                Err(e) => return Err(e),
             };
             let mut username = String::new();
             match username_file.read_to_string(&mut username) {
@@ -571,13 +571,12 @@ fn main() {
             Ok(username)
         }
         println!("{:?}", read_username_from_file_using_operator_chained());
-        // on the other hand to make this funciton even shorted : 
+        // on the other hand to make this funciton even shorted :
         fn read_username_from_file_shortest() -> Result<String, io::Error> {
             fs::read_to_string("./src/hello.txt")
         }
         println!("{:?}", read_username_from_file_shortest());
         // note: custom errors can be made and used (automatically if ? operator used and the correct type is stated in the reutrn type) by `impl From<io::Error>` for some "CustomError". Also the operator can only be used inside a function which returns Result<> or Option  or another type that implements FromResidual.
-        
     }
 
     // ################## panic ####################
@@ -586,14 +585,14 @@ fn main() {
         struct Guess {
             value: i32,
         }
-        impl  Guess {
-            fn new (value: i32) -> Guess {
+        impl Guess {
+            fn new(value: i32) -> Guess {
                 if value < 1 || value > 100 {
                     panic!("Guess value must be between 1 and 100, got {}", value);
                 }
-                Guess {value}
+                Guess { value }
             }
-            fn value (&self) -> i32 {
+            fn value(&self) -> i32 {
                 self.value
             }
         }
@@ -617,32 +616,32 @@ fn main() {
         // println!("{result}");
         // this wont work yet as > operator is not defined for every type including generic T here.
         struct _Point1<T> {
-            x:T,
+            x: T,
         }
-        struct Point2<T,U> {
+        struct Point2<T, U> {
             x: T,
             y: U,
         }
-        enum _Result<T,E> {
+        enum _Result<T, E> {
             Ok(T),
             Err(E),
         }
         // in method definition :
-        impl <T> _Point1<T> {
+        impl<T> _Point1<T> {
             fn _x(&self) -> &T {
                 &self.x
             }
         }
-        impl<T1,U1> Point2<T1, U1> {
+        impl<T1, U1> Point2<T1, U1> {
             fn mixup<T2, U2>(&self, other: Point2<T2, U2>) -> Point2<&T1, U2> {
                 Point2 {
-                    x: &self.x, 
+                    x: &self.x,
                     y: other.y,
                 }
             }
         }
-        let p1 = Point2 {x: 5, y: 10.4};
-        let p2 = Point2 {x: "hello", y: "c"};
+        let p1 = Point2 { x: 5, y: 10.4 };
+        let p2 = Point2 { x: "hello", y: "c" };
         let p3 = p1.mixup(p2);
         println!("p3.x = {}, p3.y = {}", p3.x, p3.y);
         println!("{}", p1.x);
@@ -651,7 +650,7 @@ fn main() {
     // ################### traits: defining shared behavior ###################
     {
         // traits are a way to group methods signatures together to define a set of behaviors necessary to accomplish some purpose
-        // eg: a trait is defined in lib.rs as 
+        // eg: a trait is defined in lib.rs as
         // pub trait Summary {
         //     fn summarize(&self) -> String;
         // }
@@ -663,30 +662,30 @@ fn main() {
         //     pub author: String,
         //     pub content: String,
         // }
-        
+
         // impl Summary for NewsArticle {
         //     fn summarize(&self) -> String {
         //         format!("{}, by {} ({})", self.headline, self.author, self.location)
         //     }
         // }
-        
+
         // pub struct Tweet {
         //     pub username: String,
         //     pub content: String,
         //     pub reply: bool,
         //     pub retweet: bool,
         // }
-        
+
         // impl Summary for Tweet {
         //     fn summarize(&self) -> String {
         //         format!("{}: {}", self.username, self.content)
         //     }
         // }
-        let tweet = Tweet{
+        let tweet = Tweet {
             username: String::from("david"),
             content: String::from("this is my first gaming tweet"),
             reply: false,
-            retweet: false
+            retweet: false,
         };
         println!("{}", tweet.summarize());
         // note: default behavior can also be defined for a trait, just provide a method to summarize here in pub trait Summary here for example.
@@ -698,96 +697,120 @@ fn main() {
             println!("Breaking news! {}", item.summarize());
         }
         // this function implements Summary trait without explicitely defining the type of item provided the item being provided has a type which already implements Summary trait. Here, the item can be either Tweet or NewsArticle as defined before.
-        // the impl trait syntax here is a syntax sugar for a longer form known as trait bound and it looks like: 
+        // the impl trait syntax here is a syntax sugar for a longer form known as trait bound and it looks like:
         pub fn _notify_expanded<T: Summary>(item: &T) {
             println!("Breaking news! {}", item.summarize());
         }
         // to specify multiple trait bounds we use + Syntax:
         pub fn _notify_multi(_item: &(impl Summary + Display)) {}
         // and in trait bound form :
-        pub fn _notify_multi_expanded<T: Summary+Display>(_item:&T) {}
+        pub fn _notify_multi_expanded<T: Summary + Display>(_item: &T) {}
         // using multiple trait bounds can get messy sometiems, eg:
         pub fn _some_function<T: Display + Clone, U: Clone + Debug>(_t: &T, _u: &U) {}
         // instead use where clause:
-        pub fn _some_function_where<T, U>(_t: &T, _u: &U) -> i32 where T: Display + Clone, U: Clone + Debug,{
-            return 0
+        pub fn _some_function_where<T, U>(_t: &T, _u: &U) -> i32
+        where
+            T: Display + Clone,
+            U: Clone + Debug,
+        {
+            return 0;
         }
     }
 
     // ################# returning types that implement traits ##############
-    fn _returns_summarizable() -> impl Summary {
-        Tweet {
-            username: String::from("horse_ebooks"),
-            content: String::from("of course, as you probably already know, people"),
-            reply: false,
-            retweet: false,
-        }
-    }
-    // note: returning either a Tweet or NewsArticle here as a possible return type wont work with impl Summary due to reestrictions around how the impl Trait syntax is implemented in the compiler.
-    // now the largest function can be run with the following modification.
-    fn largest<T: Display + PartialOrd>(list: &[T]) -> &T {
-        let mut largest = &list[0];
-        for item in list {
-            if item > largest {
-                largest = item;
+    {
+        fn _returns_summarizable() -> impl Summary {
+            Tweet {
+                username: String::from("horse_ebooks"),
+                content: String::from("of course, as you probably already know, people"),
+                reply: false,
+                retweet: false,
             }
         }
-        largest
+        // note: returning either a Tweet or NewsArticle here as a possible return type wont work with impl Summary due to reestrictions around how the impl Trait syntax is implemented in the compiler.
+        // now the largest function can be run with the following modification.
+        fn largest<T: Display + PartialOrd>(list: &[T]) -> &T {
+            let mut largest = &list[0];
+            for item in list {
+                if item > largest {
+                    largest = item;
+                }
+            }
+            largest
+        }
+        let number_list = vec![23, 43, 45, 545643];
+        let result = largest(&number_list);
+        println!("{result}");
     }
-    let number_list = vec![23,43,45,545643];
-    let result = largest(&number_list);
-    println!("{result}");
 
     // ######################### Validating references with lifetimes ############################
-    // consider function:
-    // fn longest(x: &str, y: &str) -> &str {
-    //     if x.len() > y.len() {
-    //         x
-    //     } else {
-    //         y
-    //     }
-    // }
-    // this gives an error saying the return type needs a generic lifetime parameter on it because rust cant tell wheather the reference being returned refers to x or y.
-    // examples of lifetime parameter:
-    // &i32   // a reference
-    // &'a i32   // a reference with an explicit lifetime
-    // &'a mut i32  // a mutable reference with an explicit lifetime
-    // to use these in functions:
-    fn longest<'a>(x: &'a str, y: &'a str) -> &'a str {
-        if x.len() > y.len() {
-            x
-        } else {
-            y
-        }
-    }
-    // The function signature now tells Rust that for some lifetime 'a, the function takes two parameters, both of which are string slices that live at least as long as lifetime 'a. The function signature also tells Rust that the string slice returned from the function will live at least as long as lifetime 'a. In practice, it means that the lifetime of the reference returned by the longest function is the same as the smaller of the lifetimes of the values referred to by the function arguments. These relationships are what we want Rust to use when analyzing this code.
-    let string1 = String::from("abcd");
-    let string2 = "xyz";
-    let result = longest(string1.as_str(), string2);
-    println!("The longest string is {}", result);
-    // struct holding reference nedds a lifetime annotation on every reference.
-    struct _ImportantExcerpt<'a> {
-        part: &'a str,
-    }    
-    // all in all, references have a lifetime and you need to specify lifetime param for functions or structs that use references. few functions used before didnt require it because rust automatically adds it in some very obvious cases.
-    // putting everyting together
-    fn _longest_with_an_announcement<'a, T>(
-        x: &'a str,
-        y: &'a str,
-        ann: T,
-    ) -> &'a str
-    where
-        T: Display,
     {
-        println!("Announcement! {}", ann);
-        if x.len() > y.len() {
-            x
-        } else {
-            y
+        // consider function:
+        // fn longest(x: &str, y: &str) -> &str {
+        //     if x.len() > y.len() {
+        //         x
+        //     } else {
+        //         y
+        //     }
+        // }
+        // this gives an error saying the return type needs a generic lifetime parameter on it because rust cant tell wheather the reference being returned refers to x or y.
+        // examples of lifetime parameter:
+        // &i32   // a reference
+        // &'a i32   // a reference with an explicit lifetime
+        // &'a mut i32  // a mutable reference with an explicit lifetime
+        // to use these in functions:
+        fn longest<'a>(x: &'a str, y: &'a str) -> &'a str {
+            if x.len() > y.len() {
+                x
+            } else {
+                y
+            }
         }
-    }
-    // the function  has an extra parameter named ann of the generic type T, which can be filled in by any type that implements the Display trait as specified by the where clause. This extra parameter will be printed using {}, which is why the Display trait bound is necessary. Because lifetimes are a type of generic, the declarations of the lifetime parameter 'a and the generic type parameter T go in the same list inside the angle brackets after the function name
+        // The function signature now tells Rust that for some lifetime 'a, the function takes two parameters, both of which are string slices that live at least as long as lifetime 'a. The function signature also tells Rust that the string slice returned from the function will live at least as long as lifetime 'a. In practice, it means that the lifetime of the reference returned by the longest function is the same as the smaller of the lifetimes of the values referred to by the function arguments. These relationships are what we want Rust to use when analyzing this code.
+        let string1 = String::from("abcd");
+        let string2 = "xyz";
+        let result = longest(string1.as_str(), string2);
+        println!("The longest string is {}", result);
+        // struct holding reference nedds a lifetime annotation on every reference.
+        struct _ImportantExcerpt<'a> {
+            part: &'a str,
+        }
+        // all in all, references have a lifetime and you need to specify lifetime param for functions or structs that use references. few functions used before didnt require it because rust automatically adds it in some very obvious cases.
+        // putting everyting together
+        fn _longest_with_an_announcement<'a, T>(x: &'a str, y: &'a str, ann: T) -> &'a str
+        where
+            T: Display,
+        {
+            println!("Announcement! {}", ann);
+            if x.len() > y.len() {
+                x
+            } else {
+                y
+            }
+        }
+        // the function  has an extra parameter named ann of the generic type T, which can be filled in by any type that implements the Display trait as specified by the where clause. This extra parameter will be printed using {}, which is why the Display trait bound is necessary. Because lifetimes are a type of generic, the declarations of the lifetime parameter 'a and the generic type parameter T go in the same list inside the angle brackets after the function name
+    }   
 
+    // ################################## how to write tests ###################################
+    {
+        // consider this code in lib.rs:
+        // pub fn add(left: usize, right: usize) -> usize {
+        //     left + right
+        // }
+
+        // #[cfg(test)]
+        // mod tests {
+        //     use super::*;
+
+        //     #[test]
+        //     fn it_works() {
+        //         let result = add(2, 2);
+        //         assert_eq!(result, 4);
+        //     }
+        // }
+        // the #[test] annotation indicates this is a test function. we can also have non-test function in the tests module to help setup common scenarios or perform common operations.
+        // refer to lib.rs for examples.
+    }
 
     let elapsed_time = start_time.elapsed();
     println!("Elapsed time : {:?}", elapsed_time);

@@ -87,3 +87,84 @@ impl Summary for Tweet {
         format!("{}: {}", self.username, self.content)
     }
 }
+
+pub fn add(left: usize, right: usize) -> usize {
+    left + right
+}
+
+
+#[derive(Debug)]
+struct Rectangle {
+    _width: u32,
+    _height: u32,
+}
+
+impl Rectangle {
+    fn _can_hold(&self, other: &Rectangle) -> bool {
+        self._width > other._width && self._height > other._height
+    }
+}
+
+// for structs and enums that are defined separately need to implement PartialEq to assert equality along with Debug to print teh values when the assertion fails. It is as straightforward as adding the #[derive(PartialEq, Debug)] annotation to the struct or enum definition.
+
+pub fn greeting(name: &str) -> String {
+    format!("Hello {}!", name)
+}
+
+pub struct Guess {
+    value: i32,
+}
+
+impl Guess {
+    pub fn new(value: i32) -> Guess {
+        if value < 1 || value > 100 {
+            panic!("Guess value must be between 1 and 100, got {}.", value);
+        }
+
+        Guess { value }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn it_works() {
+        let result = add(2, 2);
+        assert_eq!(result, 4);
+    }
+
+    #[test]
+    fn exploration() {
+        assert_eq!(2 + 2, 4);
+    }
+
+    // #[test]
+    // fn another() {
+    //     panic!("Make this test fail");
+    // }
+    #[test]
+    fn larger_can_hold_smaller() {
+        let larger = Rectangle {
+            _width: 8,
+            _height: 7,
+        };
+        let smaller = Rectangle {
+            _width: 5,
+            _height: 1,
+        };
+        assert!(larger._can_hold(&smaller))
+    }
+    // to introduce custom messages
+    #[test]
+    fn greeting_contains_name() {
+        let result = greeting("Carol");
+        assert!(result.contains("Carol"), "Greeting did not contain name, value was `{}`", result);
+    }
+    #[test]
+    #[should_panic]
+    fn greater_than_100() {
+        Guess::new(200);
+    }
+}
