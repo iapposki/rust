@@ -812,6 +812,23 @@ fn main() {
         // refer to lib.rs for examples.
     }
 
+    // ############################### controlling how tests are run ############################
+    {
+        // { tests by default are run in parallel }. Tests are run simultaneously on separate threads. If some tests depend on each other or on any shared state like shared environments, current working directory or variabbles, the tests gives an error. To remedy this, you can make it so that the test use only one thread effectively running tests consecutively. 
+        // e.g. command : 
+        // $ cargo test -- --test-threads=1
+        // wherer == is called the separator.
+        // { when test passes, rust captures any println output }. It only shows up when a test doesn't pass and further information of the failure is shown in the terminal.
+        // if we want to see the printed values for passing tests as well, we add ;
+        // $ cargo test == ==show-output 
+        //  { running a subseto of tests by name }: giving argument after $ cargo test <argument> ; will search for the substring argument in the test cas names and will selectively run them.
+        // { ignoring tests unless specifically requested }: adding annotation #[ignore] just below the #[test] annotaiton will make it so that when tests are run, these tests are ignored.
+        // to run all tests or tests which are ignored, we used these respectively:
+        // $ cargo test -- --include-ignored
+        // $ cargo test -- --ignored
+    } 
+
+
     let elapsed_time = start_time.elapsed();
     println!("Elapsed time : {:?}", elapsed_time);
 }

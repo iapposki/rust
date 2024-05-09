@@ -112,16 +112,16 @@ pub fn greeting(name: &str) -> String {
 }
 
 pub struct Guess {
-    value: i32,
+    _value: i32,
 }
 
 impl Guess {
-    pub fn new(value: i32) -> Guess {
-        if value < 1 || value > 100 {
-            panic!("Guess value must be between 1 and 100, got {}.", value);
+    pub fn new(_value: i32) -> Guess {
+        if _value < 1 || _value > 100 {
+            panic!("Guess value must be between 1 and 100, got {}.", _value);
         }
 
-        Guess { value }
+        Guess { _value }
     }
 }
 
