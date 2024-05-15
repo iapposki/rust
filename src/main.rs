@@ -828,6 +828,13 @@ fn main() {
         // $ cargo test -- --ignored
     } 
 
+    // ################################# test organization ##############################
+    {
+        // convention is to make tests modules in each file in src folder and annotate it with cfg(test).
+        // #[cfg(test)] runs only on cargo test, not on cargo build.
+        // this is true for unit tests, not for integration tests. It goes in different directory and doesn't need the #[cfg(test)] annotation.
+    }
+
 
     let elapsed_time = start_time.elapsed();
     println!("Elapsed time : {:?}", elapsed_time);
