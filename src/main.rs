@@ -833,6 +833,12 @@ fn main() {
         // convention is to make tests modules in each file in src folder and annotate it with cfg(test).
         // #[cfg(test)] runs only on cargo test, not on cargo build.
         // this is true for unit tests, not for integration tests. It goes in different directory and doesn't need the #[cfg(test)] annotation.
+        // integration test is done in test directory (project/tests/integration_tests.rs) which is at the same level of src directory.
+        // each file in the tests folder is a separate crate. refer to any file in tests directory.
+        // for running only integration tests : 
+        // $ cargo test --test integration_test
+        // for sharing some common code with other integration files and not make it come up in the console when integration tests are run, we need to make a folder (eg: common folder we setup up here) and make keep codes there (mod.rs here) for common code sharing. Thus making folder there tells rust to not treat that module as an integration test.
+        // to make use of modules in test, we simply import it into the integration test(eg; using the common module here would make it `mod common;`)
     }
 
 
