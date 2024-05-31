@@ -841,6 +841,47 @@ fn main() {
         // to make use of modules in test, we simply import it into the integration test(eg; using the common module here would make it `mod common;`)
     }
 
+    // ################################## closures: anonymous functions that capture their environment #########################
+    {
+        // closures are anonymoous functions that can be saved in a variable or be passed as arguments to other functions
+        #[derive(Debug, PartialEq, Copy, Clone)]
+        enum ShirtColour {
+            Red,
+            Blue,
+        }
+        struct Inventory {
+            shirts: Vec<ShirtColour>,
+        }
+        impl Inventory {
+            fn giveaway(&self, user_preference: Option<ShirtColour>) -> ShirtColour {
+                user_preference.unwrap_or_else(|| self.most_stocked())
+            }
+            fn most_stocked(&self) -> ShirtColour {
+                let mut num_red = 0;
+                let mut num_blue = 0;
+                for colour in &self.shirts {
+                    match colour {
+                        ShirtColour::Blue => num_blue += 1,
+                        ShirtColour::Red => num_red += 1,
+                    }
+                }
+                if num_red > num_blue {
+                    ShirtColour::Red
+                } else {
+                    ShirtColour::Blue
+                }
+            }
+        }
+        let store = Inventory {
+            shirts: vec![ShirtColour::Blue, ShirtColour::Red, ShirtColour::Blue],
+        };
+        let user_pref1 = Some(ShirtColour::Red);
+        let giveaway1 = store.giveaway(user_pref1);
+        println!("The user with preference {:?} gets {:?}", user_pref1.unwrap(), giveaway1);
+        let user_pref2 = None;
+        let giveaway2 = store.giveaway(user_pref2);
+        println!("The user with preference {:?} gets {:?}", user_pref2, giveaway2);
+    }
 
     let elapsed_time = start_time.elapsed();
     println!("Elapsed time : {:?}", elapsed_time);
