@@ -3,7 +3,8 @@ use std::collections::HashMap;
 use std::fmt::{Debug, Display};
 use std::fs::{self, File};
 use std::io::{self, ErrorKind, Read};
-use std::time::Instant;
+use std::thread;
+use std::time::{Duration, Instant};
 
 use crate::garden::vegetables::Asparagus;
 use rusttutorial::Tweet;
@@ -882,6 +883,20 @@ fn main() {
         let giveaway2 = store.giveaway(user_pref2);
         println!("The user with preference {:?} gets {:?}", user_pref2, giveaway2);
     }
+    // giveaway method used closure here. closure expression is the one inside unwrap_or_else which takes in parameter given between || (none here).
+    // closures dont usually require you to annotate the types of parameters or the return value like fn functions do.
+    let _expensive_closure = |num: u32| -> u32 {
+        println!("calculating slowly...");
+        thread::sleep(Duration::from_secs(2));
+        num
+    };
+    // comparison with function:
+    fn  _add_one_v1(x: u32) -> u32 {x+1}
+    let _add_one_v2 = |x: u32| -> u32 {x+1};
+    let _add_one_v3 = |x: u32| {x+1};
+    // let add_one_v4 = |x| x+1;  // should work but doesnt dunno why :/
+
+    
 
     let elapsed_time = start_time.elapsed();
     println!("Elapsed time : {:?}", elapsed_time);
